@@ -1,7 +1,7 @@
-package com.tiv.im.auth.mapper;
+package com.tiv.easy.im.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tiv.im.auth.model.User;
+import com.tiv.easy.im.auth.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

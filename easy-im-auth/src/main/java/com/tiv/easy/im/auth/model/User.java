@@ -1,4 +1,4 @@
-package com.tiv.im.auth.model;
+package com.tiv.easy.im.auth.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

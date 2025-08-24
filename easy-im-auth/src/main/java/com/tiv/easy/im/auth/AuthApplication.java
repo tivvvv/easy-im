@@ -1,4 +1,4 @@
-package com.tiv.im.auth;
+package com.tiv.easy.im.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
