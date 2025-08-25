@@ -32,4 +32,12 @@ public class Result<T> {
         return new Result<>(code, msg, data);
     }
 
+    public static <T> Result<T> error(CodeEnum codeEnum) {
+        return new Result<>(codeEnum.getCode(), codeEnum.getMsg(), null);
+    }
+
+    public static <T> Result<T> error(CodeEnum codeEnum, T data) {
+        return new Result<>(codeEnum.getCode(), codeEnum.getMsg(), data);
+    }
+
 }
