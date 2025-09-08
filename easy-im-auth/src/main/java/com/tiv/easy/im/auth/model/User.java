@@ -2,7 +2,10 @@ package com.tiv.easy.im.auth.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,6 +13,9 @@ import java.util.Date;
  * 用户表
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName(value = "user")
 public class User {
 

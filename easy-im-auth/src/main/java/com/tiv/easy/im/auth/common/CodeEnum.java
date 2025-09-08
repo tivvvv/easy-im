@@ -17,7 +17,8 @@ public enum CodeEnum {
     NO_USER_ERROR(40004, "用户不存在"),
 
     SYSTEM_ERROR(50000, "系统内部异常"),
-    UPDATE_AVATAR_ERROR(50001, "更新头像失败");
+    SAVE_USER_ERROR(50001, "数据库异常,保存用户失败"),
+    UPDATE_AVATAR_ERROR(50002, "更新头像失败");
 
     private final int code;
 
