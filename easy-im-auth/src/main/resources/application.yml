@@ -37,3 +37,14 @@ minio:
   secretKey: rootroot
   imgSize: 1024
   fileSize: 1024
+
+knife4j:
+  enable: true
+  openapi:
+    title: easy-im-auth 接口文档
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.tiv.easy.im.auth.controller
