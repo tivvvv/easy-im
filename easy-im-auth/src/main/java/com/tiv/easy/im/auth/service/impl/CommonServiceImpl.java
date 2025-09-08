@@ -25,7 +25,7 @@ public class CommonServiceImpl implements CommonService {
     public Boolean sendSmsCode(SmsRequest request) {
         String phone = request.getPhone();
         String code = VerificationCodeGenerator.getRandomNum();
-        stringRedisTemplate.opsForValue().set(UserConstants.REGISTER_PREFIX + phone, code, 5, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(UserConstants.USER_PREFIX + phone, code, 5, TimeUnit.MINUTES);
         try {
             SmsUtil.mockSendSms(phone, code);
             log.info("手机号: {}, 验证码: {}", phone, code);

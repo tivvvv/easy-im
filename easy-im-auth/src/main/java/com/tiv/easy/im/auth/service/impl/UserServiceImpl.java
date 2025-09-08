@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tiv.easy.im.auth.common.CodeEnum;
 import com.tiv.easy.im.auth.constants.UserConstants;
+import com.tiv.easy.im.auth.data.user.login.LoginByCodeRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginResponse;
 import com.tiv.easy.im.auth.data.user.register.RegisterRequest;
@@ -40,7 +41,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         // 查询redis中验证码
-        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.REGISTER_PREFIX + phone);
+        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.USER_PREFIX + phone);
         if (verifyCode == null || !verifyCode.equals(request.getCode())) {
             throw new GlobalException(CodeEnum.CODE_ERROR);
         }
@@ -61,6 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!saved) {
             throw new GlobalException(CodeEnum.SAVE_USER_ERROR);
         }
+        stringRedisTemplate.delete(UserConstants.USER_PREFIX + phone);
 
         return new RegisterResponse(userId);
     }
@@ -78,6 +80,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BeanUtils.copyProperties(user, response);
         String token = JwtUtil.generate(String.valueOf(user.getUserId()));
         response.setToken(token);
+        return response;
+    }
+
+    @Override
+    public LoginResponse loginByCode(LoginByCodeRequest request) {
+        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.USER_PREFIX + request.getPhone());
+        if (verifyCode == null || !verifyCode.equals(request.getCode())) {
+            throw new GlobalException(CodeEnum.CODE_ERROR);
+        }
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("phone", request.getPhone());
+        User user = this.getOnly(queryWrapper, true);
+        if (user == null) {
+            throw new GlobalException(CodeEnum.NO_USER_ERROR);
+        }
+        LoginResponse response = new LoginResponse();
+        BeanUtils.copyProperties(user, response);
+        String token = JwtUtil.generate(String.valueOf(user.getUserId()));
+        response.setToken(token);
+        stringRedisTemplate.delete(UserConstants.USER_PREFIX + request.getPhone());
+
         return response;
     }
 

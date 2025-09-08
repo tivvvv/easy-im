@@ -1,6 +1,7 @@
 package com.tiv.easy.im.auth.controller;
 
 import com.tiv.easy.im.auth.common.Result;
+import com.tiv.easy.im.auth.data.user.login.LoginByCodeRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginResponse;
 import com.tiv.easy.im.auth.data.user.register.RegisterRequest;
@@ -33,6 +34,13 @@ public class UserController {
     @PostMapping("/login")
     public Result<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = userService.login(request);
+
+        return Result.success(response);
+    }
+
+    @PostMapping("/login/code")
+    public Result<LoginResponse> loginByCode(@Valid @RequestBody LoginByCodeRequest request) {
+        LoginResponse response = userService.loginByCode(request);
 
         return Result.success(response);
     }
