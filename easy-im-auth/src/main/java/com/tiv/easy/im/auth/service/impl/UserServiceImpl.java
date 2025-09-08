@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Resource
-    private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
@@ -36,7 +36,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         // 查询redis中验证码
-        String verifyCode = redisTemplate.opsForValue().get(UserConstants.REGISTER_PREFIX + phone);
+        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.REGISTER_PREFIX + phone);
         if (verifyCode == null || !verifyCode.equals(request.getCode())) {
             throw new GlobalException(CodeEnum.CODE_ERROR);
         }
