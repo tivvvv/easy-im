@@ -18,7 +18,8 @@ public enum CodeEnum {
 
     SYSTEM_ERROR(50000, "系统内部异常"),
     SAVE_USER_ERROR(50001, "数据库异常,保存用户失败"),
-    UPDATE_AVATAR_ERROR(50002, "更新头像失败");
+    SEND_CODE_ERROR(50002, "发送验证码失败"),
+    UPDATE_AVATAR_ERROR(50003, "更新头像失败");
 
     private final int code;
 

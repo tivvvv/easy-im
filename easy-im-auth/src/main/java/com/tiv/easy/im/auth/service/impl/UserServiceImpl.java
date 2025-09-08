@@ -12,7 +12,7 @@ import com.tiv.easy.im.auth.exception.GlobalException;
 import com.tiv.easy.im.auth.mapper.UserMapper;
 import com.tiv.easy.im.auth.model.User;
 import com.tiv.easy.im.auth.service.UserService;
-import com.tiv.easy.im.auth.utils.NicknameGenerateUtil;
+import com.tiv.easy.im.auth.utils.NicknameGenerator;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -51,7 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .userId(userId)
                 .password(encryptedPassword)
                 .phone(phone)
-                .userName(NicknameGenerateUtil.generateNickname())
+                .userName(NicknameGenerator.generateNickname())
                 .build();
         boolean saved = this.save(user);
         if (!saved) {

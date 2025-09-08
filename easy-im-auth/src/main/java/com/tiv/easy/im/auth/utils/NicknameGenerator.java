@@ -2,7 +2,7 @@ package com.tiv.easy.im.auth.utils;
 
 import java.util.Random;
 
-public class NicknameGenerateUtil {
+public class NicknameGenerator {
 
     static String[] adjectives = {"粘人的", "聪明的", "可爱的", "呆呆的", "睡着的", "勇敢的", "懒散的", "活泼的", "温柔的", "狡猾的", "快乐的", "笨拙的"};
 
