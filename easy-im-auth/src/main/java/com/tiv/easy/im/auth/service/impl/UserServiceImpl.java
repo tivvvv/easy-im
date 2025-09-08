@@ -6,13 +6,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tiv.easy.im.auth.common.CodeEnum;
 import com.tiv.easy.im.auth.constants.UserConstants;
+import com.tiv.easy.im.auth.data.user.login.LoginRequest;
+import com.tiv.easy.im.auth.data.user.login.LoginResponse;
 import com.tiv.easy.im.auth.data.user.register.RegisterRequest;
 import com.tiv.easy.im.auth.data.user.register.RegisterResponse;
 import com.tiv.easy.im.auth.exception.GlobalException;
 import com.tiv.easy.im.auth.mapper.UserMapper;
 import com.tiv.easy.im.auth.model.User;
 import com.tiv.easy.im.auth.service.UserService;
+import com.tiv.easy.im.auth.utils.JwtUtil;
 import com.tiv.easy.im.auth.utils.NicknameGenerator;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -59,6 +63,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         return new RegisterResponse(userId);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("phone", request.getPhone());
+        User user = this.getOnly(queryWrapper, true);
+        String password = DigestUtils.md5DigestAsHex(request.getPassword().getBytes());
+        if (user == null || !password.equals(user.getPassword())) {
+            throw new GlobalException(CodeEnum.LOGIN_ERROR);
+        }
+        LoginResponse response = new LoginResponse();
+        BeanUtils.copyProperties(user, response);
+        String token = JwtUtil.generate(String.valueOf(user.getUserId()));
+        response.setToken(token);
+        return response;
     }
 
     private boolean isRegistered(String phone) {
