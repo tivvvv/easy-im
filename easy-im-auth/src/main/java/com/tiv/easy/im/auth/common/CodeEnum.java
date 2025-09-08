@@ -17,9 +17,10 @@ public enum CodeEnum {
     NO_USER_ERROR(40004, "用户不存在"),
 
     SYSTEM_ERROR(50000, "系统内部异常"),
-    SAVE_USER_ERROR(50001, "数据库异常,保存用户失败"),
-    SEND_CODE_ERROR(50002, "发送验证码失败"),
-    UPDATE_AVATAR_ERROR(50003, "更新头像失败");
+    SEND_CODE_ERROR(50001, "发送验证码失败"),
+    SAVE_USER_ERROR(50002, "数据库异常,保存用户失败"),
+    UPDATE_USER_ERROR(50003, "数据库异常,更新用户失败"),
+    UPLOAD_AVATAR_ERROR(50003, "更新头像失败");
 
     private final int code;
 

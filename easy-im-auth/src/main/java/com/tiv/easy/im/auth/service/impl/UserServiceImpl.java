@@ -11,6 +11,7 @@ import com.tiv.easy.im.auth.data.user.login.LoginRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginResponse;
 import com.tiv.easy.im.auth.data.user.register.RegisterRequest;
 import com.tiv.easy.im.auth.data.user.register.RegisterResponse;
+import com.tiv.easy.im.auth.data.user.update.UpdateUserInfoRequest;
 import com.tiv.easy.im.auth.exception.GlobalException;
 import com.tiv.easy.im.auth.mapper.UserMapper;
 import com.tiv.easy.im.auth.model.User;
@@ -100,6 +101,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.generate(String.valueOf(user.getUserId()));
         response.setToken(token);
         stringRedisTemplate.delete(UserConstants.USER_PREFIX + request.getPhone());
+
+        return response;
+    }
+
+    @Override
+    public LoginResponse updateUserInfo(UpdateUserInfoRequest request) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", request.getUserId());
+        User user = this.getOnly(queryWrapper, true);
+        if (user == null) {
+            throw new GlobalException(CodeEnum.NO_USER_ERROR);
+        }
+
+        User userToUpdate = new User();
+        BeanUtils.copyProperties(request, userToUpdate);
+
+        boolean updated = this.updateSelective(userToUpdate);
+        if (!updated) {
+            throw new GlobalException(CodeEnum.UPDATE_USER_ERROR);
+        }
+
+        LoginResponse response = new LoginResponse();
+        BeanUtils.copyProperties(user, response);
 
         return response;
     }

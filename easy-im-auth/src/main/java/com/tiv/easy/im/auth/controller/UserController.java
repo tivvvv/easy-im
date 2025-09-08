@@ -6,6 +6,7 @@ import com.tiv.easy.im.auth.data.user.login.LoginRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginResponse;
 import com.tiv.easy.im.auth.data.user.register.RegisterRequest;
 import com.tiv.easy.im.auth.data.user.register.RegisterResponse;
+import com.tiv.easy.im.auth.data.user.update.UpdateUserInfoRequest;
 import com.tiv.easy.im.auth.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,13 @@ public class UserController {
     @PostMapping("/login/code")
     public Result<LoginResponse> loginByCode(@Valid @RequestBody LoginByCodeRequest request) {
         LoginResponse response = userService.loginByCode(request);
+
+        return Result.success(response);
+    }
+
+    @PostMapping("/update/info")
+    public Result<LoginResponse> updateUserInfo(@Valid @RequestBody UpdateUserInfoRequest request) {
+        LoginResponse response = userService.updateUserInfo(request);
 
         return Result.success(response);
     }
