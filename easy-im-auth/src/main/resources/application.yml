@@ -31,12 +31,9 @@ mybatis-plus:
 
 minio:
   endpoint: http://127.0.0.1:9000
-  fileHost: http://127.0.0.1:9000
-  bucketName: easy-im
   accessKey: root
   secretKey: rootroot
-  imgSize: 1024
-  fileSize: 1024
+  bucketName: easy-im
 
 knife4j:
   enable: true
