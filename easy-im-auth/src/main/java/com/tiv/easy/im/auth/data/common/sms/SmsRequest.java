@@ -1,4 +1,4 @@
-package com.tiv.easy.im.auth.data.user.sms;
+package com.tiv.easy.im.auth.data.common.sms;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
