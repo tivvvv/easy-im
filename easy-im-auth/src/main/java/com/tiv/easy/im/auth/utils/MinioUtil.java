@@ -26,7 +26,7 @@ public class MinioUtil {
     public String uploadUrl(String objectName, Integer expires) {
         return minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
-                        .method(Method.POST)
+                        .method(Method.PUT)
                         .bucket(bucketName)
                         .object(objectName)
                         .expiry(expires, TimeUnit.SECONDS)
