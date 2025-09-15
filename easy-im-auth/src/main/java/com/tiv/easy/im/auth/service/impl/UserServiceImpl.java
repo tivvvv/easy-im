@@ -106,9 +106,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginResponse updateUserInfo(UpdateUserInfoRequest request) {
+    public LoginResponse updateUserInfo(Long userId, UpdateUserInfoRequest request) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.eq("user_id", userId);
         User user = this.getOnly(queryWrapper, true);
         if (user == null) {
             throw new GlobalException(CodeEnum.NO_USER_ERROR);

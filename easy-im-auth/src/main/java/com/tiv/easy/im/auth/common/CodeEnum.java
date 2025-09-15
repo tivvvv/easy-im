@@ -15,6 +15,7 @@ public enum CodeEnum {
     CODE_ERROR(40002, "验证码错误"),
     LOGIN_ERROR(40003, "登录失败,用户名或密码错误"),
     NO_USER_ERROR(40004, "用户不存在"),
+    NOT_LOGIN_ERROR(40005, "未登录"),
 
     SYSTEM_ERROR(50000, "系统内部异常"),
     SEND_CODE_ERROR(50001, "发送验证码失败"),

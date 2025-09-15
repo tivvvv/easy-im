@@ -19,7 +19,7 @@ public interface UserService extends IService<User> {
 
     LoginResponse loginByCode(LoginByCodeRequest request);
 
-    LoginResponse updateUserInfo(UpdateUserInfoRequest request);
+    LoginResponse updateUserInfo(Long userId, UpdateUserInfoRequest request);
 
     default User getOnly(QueryWrapper<User> wrapper, boolean throwEx) {
         wrapper.last("limit 1");

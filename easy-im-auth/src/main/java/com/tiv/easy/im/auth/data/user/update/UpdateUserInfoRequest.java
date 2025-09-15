@@ -6,11 +6,6 @@ import lombok.Data;
 public class UpdateUserInfoRequest {
 
     /**
-     * id
-     */
-    private Long userId;
-
-    /**
      * 用户昵称
      */
     private String userName;
