@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>easy-im-auth</module>
+        <module>easy-im-gateway</module>
     </modules>
 
     <properties>
