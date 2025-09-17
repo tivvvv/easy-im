@@ -107,19 +107,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginResponse updateUserInfo(Long userId, UpdateUserInfoRequest request) {
+
+        User userToUpdate = new User();
+        BeanUtils.copyProperties(request, userToUpdate);
+        userToUpdate.setUserId(userId);
+
+        boolean updated = this.updateSelective(userToUpdate);
+        if (!updated) {
+            throw new GlobalException(CodeEnum.UPDATE_USER_ERROR);
+        }
+
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         User user = this.getOnly(queryWrapper, true);
         if (user == null) {
             throw new GlobalException(CodeEnum.NO_USER_ERROR);
-        }
-
-        User userToUpdate = new User();
-        BeanUtils.copyProperties(request, userToUpdate);
-
-        boolean updated = this.updateSelective(userToUpdate);
-        if (!updated) {
-            throw new GlobalException(CodeEnum.UPDATE_USER_ERROR);
         }
 
         LoginResponse response = new LoginResponse();

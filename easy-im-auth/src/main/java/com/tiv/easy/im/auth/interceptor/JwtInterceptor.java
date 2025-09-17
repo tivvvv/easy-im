@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tiv.easy.im.auth.common.CodeEnum;
 import com.tiv.easy.im.auth.constants.AuthConstants;
+import com.tiv.easy.im.auth.context.UserContext;
 import com.tiv.easy.im.auth.exception.GlobalException;
 import com.tiv.easy.im.auth.mapper.UserMapper;
 import com.tiv.easy.im.auth.model.User;
@@ -41,13 +42,21 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("user_id", Long.valueOf(userId));
         User user = userMapper.selectOne(queryWrapper);
         if (user == null) {
             throw new GlobalException(CodeEnum.NO_USER_ERROR);
         }
 
+        // ThreadLocal存储userId
+        UserContext.setUserId(Long.valueOf(userId));
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        // 清理ThreadLocal
+        UserContext.clear();
     }
 
 }
