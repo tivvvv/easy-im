@@ -34,3 +34,6 @@ spring:
           uri: lb://easy-im-auth
           predicates:
             - Path=/api/v1/auth/**
+          filters:
+            - AddRequestHeader=X-Request-Source, easy-im-gateway
+            - AddResponseHeader=X-Response-Source, easy-im-gateway

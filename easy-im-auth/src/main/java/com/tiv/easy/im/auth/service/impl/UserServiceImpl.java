@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tiv.easy.im.auth.common.CodeEnum;
-import com.tiv.easy.im.auth.constants.UserConstants;
+import com.tiv.easy.im.auth.constants.AuthConstants;
 import com.tiv.easy.im.auth.data.user.login.LoginByCodeRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginRequest;
 import com.tiv.easy.im.auth.data.user.login.LoginResponse;
@@ -42,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         // 查询redis中验证码
-        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.USER_PREFIX + phone);
+        String verifyCode = stringRedisTemplate.opsForValue().get(AuthConstants.USER_PREFIX + phone);
         if (verifyCode == null || !verifyCode.equals(request.getCode())) {
             throw new GlobalException(CodeEnum.CODE_ERROR);
         }
@@ -63,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!saved) {
             throw new GlobalException(CodeEnum.SAVE_USER_ERROR);
         }
-        stringRedisTemplate.delete(UserConstants.USER_PREFIX + phone);
+        stringRedisTemplate.delete(AuthConstants.USER_PREFIX + phone);
 
         return new RegisterResponse(userId);
     }
@@ -86,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginResponse loginByCode(LoginByCodeRequest request) {
-        String verifyCode = stringRedisTemplate.opsForValue().get(UserConstants.USER_PREFIX + request.getPhone());
+        String verifyCode = stringRedisTemplate.opsForValue().get(AuthConstants.USER_PREFIX + request.getPhone());
         if (verifyCode == null || !verifyCode.equals(request.getCode())) {
             throw new GlobalException(CodeEnum.CODE_ERROR);
         }
@@ -100,7 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BeanUtils.copyProperties(user, response);
         String token = JwtUtil.generate(String.valueOf(user.getUserId()));
         response.setToken(token);
-        stringRedisTemplate.delete(UserConstants.USER_PREFIX + request.getPhone());
+        stringRedisTemplate.delete(AuthConstants.USER_PREFIX + request.getPhone());
 
         return response;
     }

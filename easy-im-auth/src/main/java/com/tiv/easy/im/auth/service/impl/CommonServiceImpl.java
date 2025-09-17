@@ -1,7 +1,7 @@
 package com.tiv.easy.im.auth.service.impl;
 
 import com.tiv.easy.im.auth.common.CodeEnum;
-import com.tiv.easy.im.auth.constants.UserConstants;
+import com.tiv.easy.im.auth.constants.AuthConstants;
 import com.tiv.easy.im.auth.data.common.file.FileUploadUrlResponse;
 import com.tiv.easy.im.auth.data.common.sms.SmsRequest;
 import com.tiv.easy.im.auth.exception.GlobalException;
@@ -30,7 +30,7 @@ public class CommonServiceImpl implements CommonService {
     public Boolean sendSmsCode(SmsRequest request) {
         String phone = request.getPhone();
         String code = VerificationCodeGenerator.getRandomNum();
-        stringRedisTemplate.opsForValue().set(UserConstants.USER_PREFIX + phone, code, 5, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(AuthConstants.USER_PREFIX + phone, code, 5, TimeUnit.MINUTES);
         try {
             SmsUtil.mockSendSms(phone, code);
             log.info("手机号: {}, 验证码: {}", phone, code);
