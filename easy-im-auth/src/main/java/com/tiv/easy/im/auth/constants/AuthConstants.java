@@ -11,4 +11,6 @@ public interface AuthConstants {
 
     String GATEWAY = "easy-im-gateway";
 
+    String TOKEN = "token";
+
 }

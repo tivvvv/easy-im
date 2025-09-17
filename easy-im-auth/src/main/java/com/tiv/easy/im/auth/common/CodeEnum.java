@@ -16,7 +16,8 @@ public enum CodeEnum {
     LOGIN_ERROR(40003, "登录失败,用户名或密码错误"),
     NO_USER_ERROR(40004, "用户不存在"),
     NOT_LOGIN_ERROR(40005, "未登录"),
-    INVALID_REQUEST_SOURCE(40006, "非法请求来源"),
+    INVALID_REQUEST_SOURCE_ERROR(40006, "非法请求来源"),
+    INVALID_PARAM_ERROR(40007, "非法参数"),
 
     SYSTEM_ERROR(50000, "系统内部异常"),
     SEND_CODE_ERROR(50001, "发送验证码失败"),
